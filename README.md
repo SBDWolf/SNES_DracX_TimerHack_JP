@@ -1,7 +1,7 @@
 # SNES_DracX_TimerHack_JP
 Timer Hack for the SNES game Castlevania: Dracula X
 
-To be assembled using Asar, run "asar.exe --fix-checksum=off main.asm {ROM name}" through the command prompt.
+To be assembled using Asar, run "asar.exe --fix-checksum=off main.asm {ROM name}" on a japanese rom of the game through the command prompt.
 
 Featuers:
 
