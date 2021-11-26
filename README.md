@@ -3,7 +3,7 @@ Timer Hack for the SNES game Castlevania: Dracula X
 
 To be assembled using Asar, run "asar.exe --fix-checksum=off main.asm {ROM name}" on a japanese rom of the game through the command prompt.
 
-Featuers:
+Features:
 
 - Current room timer that updates frame-by-frame in real time. This is displayed in the very top right of the screen.
 - Previous room time. This is displayed just below the current room time.
