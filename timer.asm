@@ -4,7 +4,7 @@ org every_frame
 	;With better memory addresses or more comparisons, this could be applied to other screens such as the pre-stage intro screen, the score screen, and the credits.
 	SEP #$20
 	LDA in_gameplay
-	CMP #$01
+	CMP #$07
 	BEQ skip7
 	CLD
 	REP #$28
