@@ -11,7 +11,7 @@ Features:
 
 Known jank:
 
-- Lots of graphical artifacts, including the collapsing platforms in level 2, walls that contain meat, the pre-level screens, and the results screen.
+- Lots of graphical artifacts, including the collapsing platforms in level 2, and walls that contain meat.
 - The timers all visually disappear while the orb is spawning. They still count the overall time in the background, and will visually show and update the time as soon as you grab the orb.
 - After grabbing the Dracula orb, the only window to read the room and level times is those 10-15 frames before the screen fades to black, since there's no level afterwards.
 - The overall level timer is just a sum of each room time, meaning the loading time between each room is not counted.
