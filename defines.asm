@@ -2,8 +2,9 @@
 
 game_over_skip = $80CA55
 room_changing = $7E004A
+screen_brightness = $7E1DA0
 current_screen = $7E007A
-in_gameplay = $7E0032
+in_gameplay = $7E0484
 pause_flag = $7E004C
 frame_hijack = $808155
 every_frame = $949B10

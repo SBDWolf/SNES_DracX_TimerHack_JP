@@ -1,21 +1,22 @@
 org every_frame
 
-	;Checks if the game is on the title screen, if it is, it doesn't run this code. This aims to prevent the title screen from glitching up graphically.
-	;With better memory addresses or more comparisons, this could be applied to other screens such as the pre-stage intro screen, the score screen, and the credits.
+	;Checks if the game is in a gameplay state, if not don't run the timer.
+	;This also excludes the results screen. With additional checks against more memory addresses, the results screen could be included.
 	SEP #$20
 	LDA in_gameplay
-	CMP #$07
-	BEQ skip7
-	CLD
-	REP #$28
-	JSL $80A68D
-	RTL
-	skip7:
-	;Checks if the game is in the middle of changing rooms, if so it does a bunch of things
-	LDA room_changing
 	CMP #$00
+	BNE skip7
+	JML exit
+	skip7:
+	CMP #$AF
+	BNE skip8
+	JML exit
+	skip8:
+	;Checks if the game is in the middle of changing rooms, if so it does a bunch of things
+	LDA screen_brightness
+	CMP #$0F
 	REP #$20
-	BEQ skip1
+	BNE skip1
 	JML checks
 	skip1:
 	;Checks if the previous room time has already been stored, so that this code only gets executed once every loading screen
@@ -30,7 +31,7 @@ org every_frame
 	;A problem with this is that level 7 doesn't have a next level,
 	;so the only opportunity for the user to see the final level time for it is 10-15 frames after grabbing the orb.
 	LDA current_screen
-	CMP #$00
+	CMP #$01
 	BNE skip6
 	LDA #$00
 	STA level_timer_minutes
@@ -77,18 +78,31 @@ org every_frame
 	CLC
 	ADC level_timer_minutes
 	STA level_timer_minutes
+	
+	;check if level timer exceeds 9m59s59f, if so reset level timer to 9m59s59f
+	LDA level_timer_minutes
+	CMP #$10
+	BCC skip9
+	LDA #$09
+	STA level_timer_minutes
+	LDA #$59
+	STA level_timer_seconds
+	STA level_timer_frames
+	skip9:
 	REP #$28
 	LDA #$0000
 	STA room_timer_frames
 	STA room_timer_seconds
 	STA room_timer_minutes
 	STA already_transferred_room_time
+	
 	BRA done
 	
 	;check various play states
 	checks:
 	;if paused or if the room time has already hit 9m59s59f, stop updating the timer
-	;I think I forgot to unset the timer cap flag upon changing rooms... will have to fix
+	;I think I forgot to specifically code it to unset the timer cap flag upon changing rooms...
+	;but it gets reset by something else anyway... so I guess it works
 	LDA pause_flag
 	BIT #$0001
 	BNE done
@@ -275,6 +289,13 @@ org every_frame
 	LDA #$01
 	STA timer_cap_flag
 	JML done
+	
+	
+	exit:
+	CLD
+	REP #$28
+	JSL $80A68D
+	RTL
 	
 	
 	
