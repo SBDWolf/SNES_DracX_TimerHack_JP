@@ -3,15 +3,26 @@ org every_frame
 	;Checks if the game is in a gameplay state, if not don't run the timer.
 	;This also excludes the results screen. With additional checks against more memory addresses, the results screen could be included.
 	SEP #$20
-	LDA in_gameplay
-	CMP #$00
+	LDA in_map
+	CMP #$BF
 	BNE skip7
 	JML exit
 	skip7:
-	CMP #$AF
-	BNE skip8
+	LDA gameplay_state
+	CMP #$07
+	BEQ skip8
 	JML exit
 	skip8:
+	LDA another_in_gameplay_check
+	CMP #$01
+	BEQ skip11
+	JML exit
+	skip11:
+	LDA on_stage_clear_screen
+	CMP #$AF
+	BNE skip10
+	JML exit
+	skip10:
 	;Checks if the game is in the middle of changing rooms, if so it does a bunch of things
 	LDA screen_brightness
 	CMP #$0F
